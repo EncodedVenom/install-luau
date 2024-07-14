@@ -4,7 +4,6 @@ const fetch = require('node-fetch');
 const AdmZip = require('adm-zip');
 const path = require('path');
 const fs = require('fs');
-const { execSync } = require('child_process');
 
 async function fetch_url() {
     try {
@@ -36,6 +35,31 @@ async function run() {
 
         const zip = new AdmZip(zip_path);
         zip.extractAllTo(working_dir, true);
+
+        fs.readdir(working_dir, (err, files) => {
+            if (err) {
+                core.setFailed(`Error reading directory: ${err}`);
+                return;
+            }
+
+            files.forEach(file => {
+                const file_path = path.join(working_dir, file);
+                fs.stat(file_path, (err, stats) => {
+                    if (err) {
+                        core.setFailed(`Error stating file: ${err}`);
+                        return;
+                    }
+
+                    if (stats.isFile()) {
+                        fs.chmod(file_path, '755', err => {
+                            if (err) {
+                                core.setFailed(`Error setting executable permission for ${file_path}: ${err}`);
+                            }
+                        })
+                    }
+                });
+            });
+        });
 
         core.addPath(working_dir);
 

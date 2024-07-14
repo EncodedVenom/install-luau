@@ -4,12 +4,12 @@
     "description": "Installs Luau for use in Github Actions",
     "main": "main.js",
     "scripts": {
-      "start": "node main.js"
+        "start": "node main.js"
     },
     "dependencies": {
-      "@actions/core": "^1.10.0",
-      "@actions/io": "^1.1.2",
-      "node-fetch": "^2.6.7",
-      "adm-zip": "^0.4.16"
+        "@actions/core": "^1.10.0",
+        "@actions/io": "^1.1.2",
+        "adm-zip": "^0.4.16",
+        "node-fetch": "^2.6.7"
     }
-  }
+}
