@@ -2,27 +2,6 @@ name: 'Install Luau'
 description: 'Installs Luau for use in Github Actions'
 
 runs:
-  using: 'composite'
-  steps:
-    - name: Setup Working Directory
-      id: setup
-      run: |
-        mkdir -p luau-directory
-        cd luau-directory
-        echo "workdir=$(pwd)" >> $GITHUB_ENV
-
-    - name: Download Luau
-      run: |
-        download_link=$(curl -s https://api.github.com/repos/luau-lang/luau/releases/latest | grep ubuntu | cut -d '"' -f 4 | awk 'NR==2')
-        wget "$download_link"
-        unzip luau-ubuntu.zip
-    
-    - name: Add to PATH
-      run: |
-        echo $(pwd) >> $GITUB_PATH
-
-  post:
-    steps:
-      - name: Cleanup
-        if: always()
-        run: rm -rf ${{ env.workdir }}
+  using: 'node20'
+  main: 'main.js'
+  post: 'cleanup.js'
