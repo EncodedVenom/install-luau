@@ -30,7 +30,10 @@ async function fetch_url() {
         return new Promise((resolve, reject) => {
             fetch('https://api.github.com/repos/luau-lang/luau/releases/latest').then((response) => {
                 response.json().then((json_data) => {
-                    console.log(json_data);
+                    if (json_data.assets === undefined) {
+                        reject('Assets did not exist somehow.');
+                        return;
+                    }
                     const asset = json_data.assets.find(asset => asset.name.includes(asset_search));
                     if (asset)
                         resolve(asset.browser_download_url);
