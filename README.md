@@ -2,6 +2,8 @@
 
 A simple script that adds luau binaries to your path in a github workflow.
 
+Now available on the [GitHub Marketplace!](https://github.com/marketplace/actions/install-luau)
+
 ## Use Guide
 
 Put this before your steps you want to use luau with:
