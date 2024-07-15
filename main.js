@@ -7,7 +7,8 @@ const fs = require('fs');
 const os = require('os');
 
 async function fetch_url() {
-    let asset_search;
+    let asset_search = "INVALID";
+    let asset_url = "NULL";
     try {
         switch(os.platform()) {
             case 'win32':
@@ -17,7 +18,7 @@ async function fetch_url() {
                 asset_search = 'ubuntu';
                 break;
             case 'darwin':
-                asset_search = 'mac';
+                asset_search = 'macos';
                 break;
             default:
                 asset_search = 'INVALID';
@@ -31,7 +32,7 @@ async function fetch_url() {
         const data = await response.json();
         const asset = data.assets.find(asset => asset.name.includes(asset_search));
 
-        console.log(`Asset Link: ${asset}`);
+        asset_url = asset.browser_download_url;
         
         if (!asset) {
           throw new Error('No matching asset found');
@@ -39,7 +40,7 @@ async function fetch_url() {
     
         return asset.browser_download_url;
     } catch (error) {
-      core.setFailed(`Failed to fetch the latest release URL: ${error.message}\nplatform: ${os.platform()}\nAsset name search: ${asset_search}\nAsset value: ${asset}`);
+      core.setFailed(`Failed to fetch the latest release URL: ${error.message}\nplatform: ${os.platform()}\nAsset name search: ${asset_search}\nURL: ${asset_url}`);
     }
   }
 
