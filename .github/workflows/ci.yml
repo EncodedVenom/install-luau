@@ -1,0 +1,19 @@
+name: Unit Tests
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+    run_win:
+        name: Run Windows
+        runs-on: windows-latest
+        timeout-minutes: 2
+
+        steps:
+          - name: Checkout Project
+            uses: actions/checkout@v4
+
+          - name: Install
+            uses: encodedvenom/install-luau@2.0.0-rc.1
+
+          - name: Hello World
+            run: luau.exe tests/hello_world.luau 
