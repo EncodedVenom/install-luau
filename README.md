@@ -13,6 +13,22 @@ Put this before your steps you want to use luau with:
 
 It's that simple.
 
+Once you have this done, you can use it in your CI scripts. Here's an example from [Jecs's](https://github.com/Ukendio/jecs) CI script:
+
+```yml
+- name: Run Unit Tests
+  id: run_tests
+  run: |
+    output=$(luau test/tests.luau)
+    echo "$output"
+    if [[ "$output" == *"0 fails"* ]]; then
+      echo "Unit Tests Passed"
+    else
+      echo "Error: One or More Unit Tests Failed."
+      exit 1
+    fi
+```
+
 ## A caveat
 
 This workflow assumes you are using ubuntu in your workflows. This may change in the future.
