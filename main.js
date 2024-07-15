@@ -60,9 +60,21 @@ async function fetch_url() {
     }
   }
 
+let retries = 0;
+
 async function run() {
     try {
-        const luau_url = await fetch_url();
+        let luau_url;
+        if (retries > 8) {
+            throw Error("Max Retries Hit (something went terribly wrong).");
+        }
+        try {
+            luau_url = await fetch_url();
+        } catch {
+            retries++;
+            run();
+            return;
+        }
         const working_dir = path.join(process.cwd(), "luau-install");
 
         await io.mkdirP(working_dir);
