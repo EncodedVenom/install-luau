@@ -7,8 +7,8 @@ const fs = require('fs');
 const os = require('os');
 
 async function fetch_url() {
+    let asset_search;
     try {
-        let asset_search;
         switch(os.platform()) {
             case 'win32':
                 asset_search = 'windows';
@@ -17,7 +17,7 @@ async function fetch_url() {
                 asset_search = 'ubuntu';
                 break;
             case 'darwin':
-                asset_search = 'macos';
+                asset_search = 'mac';
                 break;
             default:
                 asset_search = 'INVALID';
@@ -35,7 +35,7 @@ async function fetch_url() {
     
         return asset.browser_download_url;
     } catch (error) {
-      core.setFailed(`Failed to fetch the latest release URL: ${error.message}`);
+      core.setFailed(`Failed to fetch the latest release URL: ${error.message}\nplatform: ${os.platform()}\nAsset name search: ${asset_search}\nAsset value: ${asset}`);
     }
   }
 
