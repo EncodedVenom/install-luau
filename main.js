@@ -18,6 +18,7 @@ async function fetch_url() {
                 asset_search = 'ubuntu';
                 break;
             case 'darwin':
+                core.info("macOS runner support is unstable. Please switch to windows-latest or ubuntu-latest for your runner.");
                 asset_search = 'mac';
                 break;
             default:

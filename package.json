@@ -1,6 +1,6 @@
 {
     "name": "install-luau",
-    "version": "2.0.0-patch1",
+    "version": "2.1",
     "description": "Installs Luau for use in Github Actions",
     "main": "main.js",
     "scripts": {

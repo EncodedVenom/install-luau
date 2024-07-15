@@ -30,3 +30,7 @@ Once you have this done, you can use it in your CI scripts. Here's an example fr
       exit 1
     fi
 ```
+
+## Runners Supported
+
+This project officially supports `windows-latest` and `ubuntu-latest`. For unknown reasons, the macOS runner will not play nice, and therefore should not be used alongside this action.
