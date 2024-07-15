@@ -25,9 +25,13 @@ async function fetch_url() {
         if (asset_search === 'INVALID') {
             throw new Error(`Platform ${os.platform()} is not supported.`);
         }
+
+        console.log("Fetching Download Link")
         const response = await fetch('https://api.github.com/repos/luau-lang/luau/releases/latest');
         const data = await response.json();
         const asset = data.assets.find(asset => asset.name.includes(asset_search));
+
+        console.log(`Asset Link: ${asset}`);
         
         if (!asset) {
           throw new Error('No matching asset found');
@@ -46,13 +50,18 @@ async function run() {
 
         await io.mkdirP(working_dir);
 
+        console.log(`Downloading Luau from \"${luau_url}\"`);
         const response = await fetch(luau_url);
         const buffer = await response.buffer();
         const zip_path = path.join(working_dir, 'binary.zip');
         fs.writeFileSync(zip_path, buffer);
 
+        console.log('Unzipping');
+
         const zip = new AdmZip(zip_path);
         zip.extractAllTo(working_dir, true);
+
+        console.log('Marking as executable');
 
         fs.readdir(working_dir, (err, files) => {
             if (err) {
@@ -78,6 +87,8 @@ async function run() {
                 });
             });
         });
+
+        console.log("Adding to PATH");
 
         core.addPath(working_dir);
 

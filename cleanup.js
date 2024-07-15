@@ -8,6 +8,7 @@ async function cleanup() {
     if (working_dir) {
       await io.rmRF(working_dir);
     }
+    console.log("Deleted Luau Working Directory.");
   } catch (error) {
     core.setFailed(error.message);
   }
