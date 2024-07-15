@@ -26,7 +26,7 @@ async function fetch_url() {
             throw new Error(`Platform ${os.platform()} is not supported.`);
         }
 
-        console.log("Fetching Download Link")
+        console.log(`Fetching Download Link (platform: ${os.platform()}, search term: ${asset_search})`);
         const response = await fetch('https://api.github.com/repos/luau-lang/luau/releases/latest');
         const data = await response.json();
         const asset = data.assets.find(asset => asset.name.includes(asset_search));
