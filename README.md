@@ -8,7 +8,7 @@ Put this before your steps you want to use luau with:
 
 ```yml
 - name: Install Luau
-  uses: encodedvenom/install-luau@v1
+  uses: encodedvenom/install-luau@v2
 ```
 
 It's that simple.
@@ -28,7 +28,3 @@ Once you have this done, you can use it in your CI scripts. Here's an example fr
       exit 1
     fi
 ```
-
-## A caveat
-
-This workflow assumes you are using ubuntu in your workflows. This may change in the future.
