@@ -18,7 +18,7 @@ async function fetch_url() {
                 asset_search = 'ubuntu';
                 break;
             case 'darwin':
-                asset_search = 'macos';
+                asset_search = 'mac';
                 break;
             default:
                 asset_search = 'INVALID';
@@ -27,18 +27,30 @@ async function fetch_url() {
             throw new Error(`Platform ${os.platform()} is not supported.`);
         }
 
-        console.log(`Fetching Download Link (platform: ${os.platform()}, search term: ${asset_search})`);
-        const response = await fetch('https://api.github.com/repos/luau-lang/luau/releases/latest');
-        const data = await response.json();
-        const asset = data.assets.find(asset => asset.name.includes(asset_search));
+        return new Promise((resolve, reject) => {
+            fetch('https://api.github.com/repos/luau-lang/luau/releases/latest').then((response) => {
+                response.json().then((json_data) => {
+                    const asset = json_data.assets.find(asset => asset.name.includes(asset_search));
+                    if (asset)
+                        resolve(asset.browser_download_url);
+                    else
+                        reject();
+                })
+            });
+        });
 
-        asset_url = asset.browser_download_url;
+        // console.log(`Fetching Download Link (platform: ${os.platform()}, search term: ${asset_search})`);
+        // const response = await fetch('https://api.github.com/repos/luau-lang/luau/releases/latest');
+        // const data = await response.json();
+        // const asset = data.assets.find(asset => asset.name.includes(asset_search));
+
+        // asset_url = asset.browser_download_url;
         
-        if (!asset) {
-          throw new Error('No matching asset found');
-        }
+        // if (!asset) {
+        //   throw new Error('No matching asset found');
+        // }
     
-        return asset.browser_download_url;
+        // return asset.browser_download_url;
     } catch (error) {
       core.setFailed(`Failed to fetch the latest release URL: ${error.message}\nplatform: ${os.platform()}\nAsset name search: ${asset_search}\nURL: ${asset_url}`);
     }
