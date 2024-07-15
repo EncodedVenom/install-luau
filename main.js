@@ -4,12 +4,30 @@ const fetch = require('node-fetch');
 const AdmZip = require('adm-zip');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 
 async function fetch_url() {
     try {
+        let asset_search;
+        switch(os.platform()) {
+            case 'win32':
+                asset_search = 'windows';
+                break;
+            case 'linux':
+                asset_search = 'ubuntu';
+                break;
+            case 'darwin':
+                asset_search = 'macos';
+                break;
+            default:
+                asset_search = 'INVALID';
+        }
+        if (asset_search === 'INVALID') {
+            throw new Error(`Platform ${os.platform()} is not supported.`);
+        }
         const response = await fetch('https://api.github.com/repos/luau-lang/luau/releases/latest');
         const data = await response.json();
-        const asset = data.assets.find(asset => asset.name.includes('ubuntu'));
+        const asset = data.assets.find(asset => asset.name.includes(asset_search));
         
         if (!asset) {
           throw new Error('No matching asset found');
