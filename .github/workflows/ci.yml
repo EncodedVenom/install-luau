@@ -3,9 +3,14 @@ name: Unit Tests
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-    run_win:
-        name: Run Windows
-        runs-on: windows-latest
+    run_tests:
+        name: Test Action
+        strategy:
+            matrix:
+                os: ["windows-latest", "macos-latest", "ubuntu-latest"]
+                verbose: ["true", "false"]
+        
+        runs-on: ${{ matrix.os }}
         timeout-minutes: 2
 
         steps:
@@ -13,22 +18,15 @@ jobs:
             uses: actions/checkout@v4
 
           - name: Install
-            uses: encodedvenom/install-luau@v2.1
+            uses: encodedvenom/install-luau@v3
+            with:
+                verbose: ${{ matrix.verbose }}
 
           - name: Hello World
-            run: luau.exe tests/hello_world.luau 
-
-    job_ubuntu:
-        name: Run Ubuntu
-        runs-on: ubuntu-latest
-        timeout-minutes: 2
-
-        steps:
-          - name: Checkout Project
-            uses: actions/checkout@v4
-
-          - name: Install
-            uses: encodedvenom/install-luau@v2.1
-
-          - name: Hello World
-            run: luau tests/hello_world.luau 
+            shell: bash
+            run: |
+                if ${{ runner.os == 'Windows' }}; then
+                    luau.exe tests/hello_world.luau 
+                else
+                    luau tests/hello_world.luau
+                fi
