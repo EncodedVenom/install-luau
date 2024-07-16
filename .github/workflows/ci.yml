@@ -19,7 +19,7 @@ jobs:
             run: luau.exe tests/hello_world.luau 
 
     job_macos:
-        name: Run Ubuntu
+        name: Run Mac
         runs-on: macos-latest
         timeout-minutes: 2
 

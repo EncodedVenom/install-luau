@@ -6,6 +6,13 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 
+const should_debug_log = core.getInput('verbose') !== "false" ?? false;
+
+const debug_log = (input) => {
+    if (should_debug_log)
+        console.log(input)
+} 
+
 async function fetch_url() {
     let asset_search = "INVALID";
     let asset_url = "NULL";
@@ -30,7 +37,9 @@ async function fetch_url() {
 
         return new Promise((resolve, reject) => {
             fetch('https://api.github.com/repos/luau-lang/luau/releases/latest').then((response) => {
+                debug_log(response);
                 response.json().then((json_data) => {
+                    debug_log(json_data);
                     if (json_data.assets === undefined) {
                         reject('Assets did not exist somehow.');
                         return;

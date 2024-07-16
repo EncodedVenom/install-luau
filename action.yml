@@ -1,6 +1,12 @@
 name: 'Install Luau'
 description: 'Installs Luau for use in Github Actions'
 
+inputs:
+  verbose:
+    description: Debug Logging
+    required: false
+    default: "false"
+
 runs:
   using: 'node20'
   main: 'main.js'
