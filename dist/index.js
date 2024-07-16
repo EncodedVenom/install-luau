@@ -33669,7 +33669,6 @@ async function fetch_url() {
                 asset_search = 'ubuntu';
                 break;
             case 'darwin':
-                core.info("macOS runner support is unstable. Please switch to windows-latest or ubuntu-latest for your runner.");
                 asset_search = 'mac';
                 break;
             default:
@@ -33693,31 +33692,20 @@ async function fetch_url() {
                         return;
                     }
                     if (json_data.assets === undefined) {
-                        reject('Assets did not exist somehow.');
+                        console.log("Install-Luau is being ratelimited! (Retry in 5 seconds)");
+                        reject('Assets did not exist');
                         return;
                     }
                     const asset = json_data.assets.find(asset => asset.name.includes(asset_search));
                     if (asset)
                         resolve(asset.browser_download_url);
                     else {
+                        console.log("Install-Luau is being ratelimited! (Retry in 5 seconds)");
                         reject();
                     }
                 })
             });
         });
-
-        // console.log(`Fetching Download Link (platform: ${os.platform()}, search term: ${asset_search})`);
-        // const response = await fetch('https://api.github.com/repos/luau-lang/luau/releases/latest');
-        // const data = await response.json();
-        // const asset = data.assets.find(asset => asset.name.includes(asset_search));
-
-        // asset_url = asset.browser_download_url;
-        
-        // if (!asset) {
-        //   throw new Error('No matching asset found');
-        // }
-    
-        // return asset.browser_download_url;
     } catch (error) {
       core.setFailed(`Failed to fetch the latest release URL: ${error.message}\nplatform: ${os.platform()}\nAsset name search: ${asset_search}\nURL: ${asset_url}`);
     }
@@ -33736,21 +33724,23 @@ async function run() {
             return;
         }
 
+        await io.mkdirP(working_dir);
+
         let luau_url;
-        if (retries > 19) {
-            throw Error("Max Retries Hit (something went terribly wrong).");
+        if (retries > 9) {
+            throw Error("Max Retries Hit (app is being ratelimited)");
         }
         try {
             luau_url = await fetch_url();
         } catch {
             retries++;
+            if (os.platform() === 'darwin' && retires === 1) {
+                core.info("macOS runners get ratelimited frequently. Consider using another runner.");
+            }
             await new Promise(resolve => setTimeout(resolve, 5000));
             run();
             return;
         }
-        
-
-        await io.mkdirP(working_dir);
 
         console.log(`Downloading Luau from \"${luau_url}\"`);
         const response = await fetch(luau_url);
