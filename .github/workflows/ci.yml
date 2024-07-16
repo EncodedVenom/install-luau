@@ -20,6 +20,21 @@ jobs:
           - name: Hello World
             run: luau.exe tests/hello_world.luau 
 
+    run_win_no_debug:
+        name: Run Windows
+        runs-on: windows-latest
+        timeout-minutes: 2
+
+        steps:
+          - name: Checkout Project
+            uses: actions/checkout@v4
+
+          - name: Install
+            uses: encodedvenom/install-luau@debug
+
+          - name: Hello World
+            run: luau.exe tests/hello_world.luau 
+
     job_macos:
         name: Run Mac
         runs-on: macos-latest
@@ -37,6 +52,21 @@ jobs:
           - name: Hello World
             run: luau tests/hello_world.luau 
 
+    job_macos_no_debug:
+        name: Run Mac
+        runs-on: macos-latest
+        timeout-minutes: 2
+
+        steps:
+          - name: Checkout Project
+            uses: actions/checkout@v4
+
+          - name: Install
+            uses: encodedvenom/install-luau@debug
+
+          - name: Hello World
+            run: luau tests/hello_world.luau 
+
     job_ubuntu:
         name: Run Ubuntu
         runs-on: ubuntu-latest
@@ -50,6 +80,21 @@ jobs:
             uses: encodedvenom/install-luau@debug
             with:
                 verbose: "true"
+
+          - name: Hello World
+            run: luau tests/hello_world.luau 
+
+    job_ubuntu_no_debug:
+        name: Run Ubuntu
+        runs-on: ubuntu-latest
+        timeout-minutes: 2
+
+        steps:
+          - name: Checkout Project
+            uses: actions/checkout@v4
+
+          - name: Install
+            uses: encodedvenom/install-luau@debug
 
           - name: Hello World
             run: luau tests/hello_world.luau 

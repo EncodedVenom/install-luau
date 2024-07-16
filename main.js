@@ -36,10 +36,12 @@ async function fetch_url() {
         }
 
         return new Promise((resolve, reject) => {
-            fetch('https://api.github.com/repos/luau-lang/luau/releases/latest').then((response) => {
-                debug_log(response);
-                response.json().then((json_data) => {
-                    debug_log(json_data);
+            fetch('https://api.github.com/repos/luau-lang/luau/releases/latest').then(async (response) => {
+                await new Promise(resolve => setTimeout(resolve, 200));
+                debug_log("[DEBUG] Response: " + toString(response));
+                response.json().then(async (json_data) => {
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                    debug_log("[DEBUG] JSON Data: " + toString(json_data));
                     if (json_data.assets === undefined) {
                         reject('Assets did not exist somehow.');
                         return;
