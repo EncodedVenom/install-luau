@@ -45,20 +45,17 @@ async function fetch_url() {
                     debug_log(json_data);
                     if (json_data === undefined || (json_data.messsage && json_data.message.includes("rate limit"))) {
                         console.log("Install-Luau is being ratelimited! (Retry in 5 seconds)");
-                        await new Promise(resolve => setTimeout(resolve, 5000));
                         reject();
                         return;
                     }
                     if (json_data.assets === undefined) {
                         reject('Assets did not exist somehow.');
-                        await new Promise(resolve => setTimeout(resolve, 5000));
                         return;
                     }
                     const asset = json_data.assets.find(asset => asset.name.includes(asset_search));
                     if (asset)
                         resolve(asset.browser_download_url);
                     else {
-                        await new Promise(resolve => setTimeout(resolve, 5000));
                         reject();
                     }
                 })
@@ -94,6 +91,7 @@ async function run() {
             luau_url = await fetch_url();
         } catch {
             retries++;
+            await new Promise(resolve => setTimeout(resolve, 5000));
             run();
             return;
         }
