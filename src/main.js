@@ -83,8 +83,10 @@ let retries = 0;
 
 async function run() {
     try {
-        const working_dir_query = core.getState('working_dir');
-        if (working_dir_query) {
+        const working_dir = path.join(process.cwd(), "luau-install");
+
+
+        if (fs.existsSync(working_dir)) {
             await io.rmRF(working_dir);
             console.log("Deleted Luau Working Directory.");
             return;
@@ -102,7 +104,7 @@ async function run() {
             run();
             return;
         }
-        const working_dir = path.join(process.cwd(), "luau-install");
+        
 
         await io.mkdirP(working_dir);
 
@@ -145,10 +147,7 @@ async function run() {
         });
 
         console.log("Adding to PATH");
-
         core.addPath(working_dir);
-
-        core.saveState('working_dir', working_dir);
     } catch (error) {
         core.setFailed(`Failed to install luau: ${error.message}`);
     }
