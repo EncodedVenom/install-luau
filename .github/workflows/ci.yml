@@ -23,6 +23,7 @@ jobs:
                 verbose: ${{ matrix.verbose }}
 
           - name: Hello World
+            shell: bash
             run: |
                 if ${{ runner.os == 'Windows' }}; then
                     luau.exe tests/hello_world.luau 
