@@ -18,6 +18,21 @@ jobs:
           - name: Hello World
             run: luau.exe tests/hello_world.luau 
 
+    job_macos:
+        name: Run Ubuntu
+        runs-on: macos-latest
+        timeout-minutes: 2
+
+        steps:
+          - name: Checkout Project
+            uses: actions/checkout@v4
+
+          - name: Install
+            uses: encodedvenom/install-luau@v2.1
+
+          - name: Hello World
+            run: luau tests/hello_world.luau 
+
     job_ubuntu:
         name: Run Ubuntu
         runs-on: ubuntu-latest
