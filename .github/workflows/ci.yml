@@ -14,6 +14,8 @@ jobs:
 
           - name: Install
             uses: encodedvenom/install-luau@debug
+            with:
+                verbose: "true"
 
           - name: Hello World
             run: luau.exe tests/hello_world.luau 
@@ -29,6 +31,8 @@ jobs:
 
           - name: Install
             uses: encodedvenom/install-luau@debug
+            with:
+                verbose: "true"
 
           - name: Hello World
             run: luau tests/hello_world.luau 
@@ -44,6 +48,8 @@ jobs:
 
           - name: Install
             uses: encodedvenom/install-luau@debug
+            with:
+                verbose: "true"
 
           - name: Hello World
             run: luau tests/hello_world.luau 
