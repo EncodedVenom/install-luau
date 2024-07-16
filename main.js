@@ -41,7 +41,7 @@ async function fetch_url() {
                 response.json().then(async (json_data) => {
                     
                     debug_log("[DEBUG] JSON Data: " + toString(json_data));
-                    if (json_data.messsage && json_data.message.includes("rate limit")) {
+                    if (json_data === undefined || (json_data.messsage && json_data.message.includes("rate limit"))) {
                         console.log("Install-Luau is being ratelimited! (Retry in 5 seconds)");
                         await new Promise(resolve => setTimeout(resolve, 5000));
                         reject();
