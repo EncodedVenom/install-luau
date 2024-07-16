@@ -37,10 +37,12 @@ async function fetch_url() {
 
         return new Promise((resolve, reject) => {
             fetch('https://api.github.com/repos/luau-lang/luau/releases/latest').then(async (response) => {
-                debug_log("[DEBUG] Response: " + toString(response));
+                debug_log("[DEBUG] Response: ");
+                debug_log(response);
                 response.json().then(async (json_data) => {
                     
-                    debug_log("[DEBUG] JSON Data: " + toString(json_data));
+                    debug_log("[DEBUG] JSON Data: ");
+                    debug_log(json_data);
                     if (json_data === undefined || (json_data.messsage && json_data.message.includes("rate limit"))) {
                         console.log("Install-Luau is being ratelimited! (Retry in 5 seconds)");
                         await new Promise(resolve => setTimeout(resolve, 5000));
@@ -49,13 +51,16 @@ async function fetch_url() {
                     }
                     if (json_data.assets === undefined) {
                         reject('Assets did not exist somehow.');
+                        await new Promise(resolve => setTimeout(resolve, 5000));
                         return;
                     }
                     const asset = json_data.assets.find(asset => asset.name.includes(asset_search));
                     if (asset)
                         resolve(asset.browser_download_url);
-                    else
+                    else {
+                        await new Promise(resolve => setTimeout(resolve, 5000));
                         reject();
+                    }
                 })
             });
         });
