@@ -53,7 +53,7 @@ async function fetch_url() {
                         return;
                     }
                     const asset = json_data.assets.find(asset => asset.name.includes(asset_search));
-                    if (asset)
+                    if (asset && asset.browser_download_url)
                         resolve(asset.browser_download_url);
                     else {
                         console.log("Install-Luau is being ratelimited! (Retry in 5 seconds)");
