@@ -84,7 +84,7 @@ let retries = 0;
 async function run() {
     try {
         let luau_url;
-        if (retries > 8) {
+        if (retries > 19) {
             throw Error("Max Retries Hit (something went terribly wrong).");
         }
         try {
