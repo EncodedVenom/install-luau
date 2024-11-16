@@ -1,6 +1,6 @@
 {
     "name": "install-luau",
-    "version": "4.1",
+    "version": "4.2",
     "description": "Installs Luau for use in Github Actions",
     "main": "main.js",
     "scripts": {
