@@ -1,6 +1,6 @@
 {
     "name": "install-luau",
-    "version": "2.1",
+    "version": "4",
     "description": "Installs Luau for use in Github Actions",
     "main": "main.js",
     "scripts": {
@@ -11,5 +11,8 @@
         "@actions/io": "^1.1.2",
         "adm-zip": "^0.4.16",
         "node-fetch": "^2.6.7"
+    },
+    "devDependencies": {
+        "@vercel/ncc": "^0.38.3"
     }
 }
