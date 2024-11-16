@@ -8,7 +8,7 @@ const os = require('os');
 
 const should_debug_log = core.getInput('verbose') !== "false" ?? false;
 const version_target = core.getInput('version');
-const version_string = version_target !== null ? `tag/${version_target}` : 'latest';
+const version_string = (version_target !== 'latest' || version_target !== null) ? `tag/${version_target}` : 'latest';
 
 const debug_log = (input) => {
     if (should_debug_log)
