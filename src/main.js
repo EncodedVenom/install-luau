@@ -7,6 +7,7 @@ const fs = require('fs');
 const os = require('os');
 
 const should_debug_log = core.getInput('verbose') !== "false" ?? false;
+const pinned_version = core.getInput('version') ?? 'latest';
 
 const debug_log = (input) => {
     if (should_debug_log)
@@ -35,7 +36,7 @@ async function fetch_url() {
         }
 
         return new Promise((resolve, reject) => {
-            fetch('https://api.github.com/repos/luau-lang/luau/releases/latest').then(async (response) => {
+            fetch(`https://api.github.com/repos/luau-lang/luau/releases/${pinned_version}`).then(async (response) => {
                 debug_log("[DEBUG] Response: ");
                 debug_log(response);
                 response.json().then(async (json_data) => {
