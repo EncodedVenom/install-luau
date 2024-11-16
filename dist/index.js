@@ -33650,7 +33650,7 @@ const os = __nccwpck_require__(857);
 
 const should_debug_log = core.getInput('verbose') !== "false" ?? false;
 const version_target = core.getInput('version');
-const version_string = (version_target !== 'latest' || version_target !== null) ? `tag/${version_target}` : 'latest';
+const version_string = (version_target !== 'latest' || version_target !== null) ? `tags/${version_target}` : 'latest';
 
 const debug_log = (input) => {
     if (should_debug_log)
@@ -33673,9 +33673,7 @@ async function fetch_url() {
                 break;
             default:
                 asset_search = 'INVALID';
-        }
-        if (asset_search === 'INVALID') {
-            throw new Error(`Platform ${os.platform()} is not supported.`);
+                throw new Error(`Platform ${os.platform()} is not supported.`);
         }
 
         return new Promise((resolve, reject) => {
