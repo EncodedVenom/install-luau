@@ -6,6 +6,10 @@ inputs:
     description: Debug Logging
     required: false
     default: "false"
+  version:
+    description: Pinned version
+    required: false
+    default: "latest"
 
 runs:
   using: 'node20'
