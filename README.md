@@ -10,7 +10,7 @@ Put this before your steps you want to use luau with:
 
 ```yml
 - name: Install Luau
-  uses: encodedvenom/install-luau@v3
+  uses: encodedvenom/install-luau@v4.2
 ```
 
 It's that simple.
